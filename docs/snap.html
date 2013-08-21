@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>snap.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>snap.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>(<span class="keyword">function</span>() {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>兼容版本的 Event Delegation 封装
+散束依次是 要绑定事件的对象 (delegator) ，事件，回调函数，和是否捕获</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">function</span> <span class="title">addEvent</span><span class="params">(obj, event, fn, capture)</span> {</span>
+    <span class="keyword">if</span>(window.attachEvent) {
+      obj.attachEvent(<span class="string">'on'</span> + event, fn);
+    } <span class="keyword">else</span> {
+      <span class="keyword">if</span>(!capture) capture = <span class="literal">false</span>;
+      obj.addEventListener(event, fn, capture);
+    }
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>兼容版本的取得浏览器窗口大小的方法</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">function</span> <span class="title">getBrowserSize</span><span class="params">()</span> {</span>
+    <span class="keyword">var</span> myWidth = <span class="number">0</span>, myHeight = <span class="number">0</span>;
+    <span class="keyword">if</span>( <span class="keyword">typeof</span>( window.innerWidth ) == <span class="string">'number'</span> ) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Non-IE</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      myWidth = window.innerWidth;
+      myHeight = window.innerHeight;
+    } <span class="keyword">else</span> <span class="keyword">if</span>( document.documentElement &amp;&amp; ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>IE 6+ in &#39;standards compliant mode&#39;</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      myWidth = document.documentElement.clientWidth;
+      myHeight = document.documentElement.clientHeight;
+    } <span class="keyword">else</span> <span class="keyword">if</span>( document.body &amp;&amp; ( document.body.clientWidth || document.body.clientHeight ) ) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>IE 4 compatible</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      myWidth = document.body.clientWidth;
+      myHeight = document.body.clientHeight;
+    }
+    <span class="keyword">return</span> {
+      <span class="string">'width'</span>: myWidth,
+      <span class="string">'height'</span>: myHeight
+    };
+  }
+
+  <span class="keyword">var</span> generator = <span class="keyword">function</span>(params) {
+    <span class="keyword">var</span> width = +params.width || <span class="number">350</span>;
+    <span class="keyword">var</span> height = +params.height || <span class="number">320</span>;
+    <span class="keyword">var</span> img = params.img;
+    <span class="keyword">var</span> href = params.href;
+    <span class="keyword">var</span> position = params.position || <span class="string">'bottom-right'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>这里接受的条件是形如： <code>bottom-left</code>, <code>bottrom-right</code> 的字符串，中间用 dash 分隔
+如果需要指定在页面垂直居中，则请把 <code>middle</code> 写在后面，比如: <code>left-middle</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">parsePosition</span><span class="params">(position)</span> {</span>
+      <span class="keyword">return</span> position.replace(<span class="regexp">/(\w+)-(\w+)/</span>, <span class="keyword">function</span>(match, pos1, pos2) {
+        <span class="keyword">if</span>(pos2 === <span class="string">'middle'</span>) {
+          <span class="keyword">var</span> top = (((getBrowserSize().height - height) / <span class="number">2</span>) &gt;&gt;&gt; <span class="number">0</span>) + <span class="string">'px'</span>;
+          <span class="keyword">return</span> pos1 + <span class="string">': 0; top :'</span> + top + <span class="string">';'</span>;
+        }
+        <span class="keyword">return</span> pos1 + <span class="string">': 0; '</span> + pos2 + <span class="string">': 0;'</span>;
+      });
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>模板</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">var</span> __template = [
+      <span class="string">'&lt;style&gt;'</span>,
+      <span class="string">'.survey-recruit { position: fixed;'</span> + parsePosition(position) + <span class="string">' width:'</span> + width + <span class="string">'px; height:'</span> + height + <span class="string">'px; }'</span>,
+      <span class="string">'.survey-recruit-close { cursor: pointer; position: absolute; top: 0; right: 0; font-size: 24px; }'</span>,
+      <span class="string">'&lt;/style&gt;'</span>,
+      <span class="string">'&lt;div class="survey-recruit"&gt;'</span>,
+      <span class="string">'&lt;div class="survey-recruit-close"&gt;&amp;times;&lt;/div&gt;'</span>,
+      <span class="string">'&lt;div class="survey-recruit-content"&gt;'</span>,
+      <span class="string">'&lt;a target="_blank" href="'</span> + href + <span class="string">'"&gt;&lt;img src="'</span> + img + <span class="string">'" alt=""/&gt;&lt;/a&gt;'</span>,
+      <span class="string">'&lt;/div&gt;'</span>,
+      <span class="string">'&lt;/div&gt;'</span>
+    ].join(<span class="string">''</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>关闭按钮的事件绑定</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">bindClose</span><span class="params">()</span> {</span>
+      <span class="keyword">var</span> surveyRecruit = document.getElementsByClassName(<span class="string">'survey-recruit'</span>)[<span class="number">0</span>];
+      addEvent(surveyRecruit, <span class="string">'click'</span>, <span class="keyword">function</span>(event) {
+        <span class="keyword">if</span>(event.target &amp;&amp; event.target.className === <span class="string">'survey-recruit-close'</span>) {
+          surveyRecruit.parentElement.removeChild(surveyRecruit);
+        }
+      });
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>插入 DOM 的方法</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">inject</span><span class="params">()</span> {</span>
+      htmlString = __template;
+      <span class="keyword">var</span> wrapper = document.createElement(<span class="string">'div'</span>);
+      wrapper.className = <span class="string">'survey-recruit'</span>;
+      wrapper.innerHTML = htmlString;
+      document.getElementsByTagName(<span class="string">'body'</span>)[<span class="number">0</span>].appendChild(wrapper);
+      bindClose();
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>when to inject</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span>(window.attachEvent) {
+      window.attachEvent(<span class="string">'onload'</span>, inject);
+    } <span class="keyword">else</span> <span class="keyword">if</span>(window.addEventListener) {
+      window.addEventListener(<span class="string">'load'</span>, inject, <span class="literal">false</span>);
+    } <span class="keyword">else</span> {
+      document.addEventListener(<span class="string">'load'</span>, inject, <span class="literal">false</span>);
+    }
+
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>change this la!</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  generator({
+    img: <span class="string">'http://placekitten.com/350/320'</span>,
+    href: <span class="string">'http://baidu.com'</span>,
+    position: <span class="string">'right-middle'</span>
+  });
+}());</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
