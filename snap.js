@@ -70,9 +70,7 @@
     function bindClose() {
       var surveyRecruit = document.getElementsByClassName('survey-recruit')[0];
       addEvent(surveyRecruit, 'click', function(event) {
-        if(event.target && event.target.className === 'survey-recruit-close') {
-          surveyRecruit.parentElement.removeChild(surveyRecruit);
-        }
+        this.parentElement.removeChild(this);
       });
     }
 
